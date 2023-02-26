@@ -131,4 +131,7 @@ dmypy.json
 #data
 notionData.json
 eightSleep.json
-session.json
+eightSleepSession.json
+
+#logs
+api_out.log

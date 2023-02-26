@@ -1,15 +1,10 @@
-import requests as req
 import json
 from datetime import datetime as dt
-from functions import sessionStart, start
-import env
-import asyncio
-from pyeight.eight import EightSleep
+from functions import *
+# from pyeight.eight import EightSleep # did things myself instead
 
-# not used right now
-# url = f"https://app-api.8slp.net/v1/users/USER_ID/alarms/ALARM_ID"
 
-with open('session.json', 'r') as f:
+with open('eightSleepSession.json', 'r') as f:
     data = json.load(f)  # parses json into a dictionary object
 
 # variables
@@ -19,14 +14,34 @@ sessionExpiration = dt.strptime(
     "%Y-%m-%dT%H:%M:%S.%fZ")
 nowUtc = dt.utcnow()
 
-if sessionExpiration <= nowUtc:
-    apiSession = sessionStart()
-    with open('session.json', 'r') as f:
-        data = json.load(f)  # parses json into a dictionary object
-else:
-    start()
-    # insert eightsleep pull request here
 
-# notion section
-# 1. Create a new day automatically with this script
-# 2. Then take the sleep data and put it into the current day in notion
+# this is the only function we will set a daily trigger for in our cloud environment
+def main():
+    # check session and start a new one if needed
+    if sessionExpiration <= nowUtc:
+        apiSession = sessionStart()
+        with open('eightSleepSession.json', 'r') as f:
+            data = json.load(f)  # parses json into a dictionary object
+
+    # pull most recent day's data and create our 4 variables
+    data = pullData()
+    score = data['intervals'][0]['score']
+    respRate = data['intervals'][0]['timeseries']['respiratoryRate'][0][1]
+    heartRateArray = data['intervals'][0]['timeseries']['heartRate']
+    heartRateSum = 0
+    for value in heartRateArray:
+        heartRateSum += value[1]
+    heartRateArrayLength = len(heartRateArray)
+    heartRate = heartRateSum / heartRateArrayLength  # gives us the average
+    timestamp = heartRateArray[heartRateArrayLength - 1][0]
+
+    l.log.debug(f'timestamp: {timestamp}')
+    l.log.debug(f'score: {score}')
+    l.log.debug(f'respRate: {respRate}')
+    l.log.debug(f'heartRate: {heartRate}')
+
+# create a new day in notion
+
+# put data in that new day in notion
+
+# add logger information to everything so I can troubleshoot when things do eventually go wrong

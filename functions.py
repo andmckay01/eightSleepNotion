@@ -1,8 +1,10 @@
 import requests as req
 import os
 import json
-from datetime import datetime as dt
 from dotenv import load_dotenv
+import asyncio
+import env
+from pyeight.eight import EightSleep
 
 # get from .env file
 load_dotenv()
@@ -11,9 +13,8 @@ password = os.getenv('eightSleepPassword')
 userId = os.getenv('eightSleepUserId')
 bedId = os.getenv('eightSleepBedId')
 
+
 # sends post request, parses data, then writes to session.json
-
-
 def sessionStart():
     print('invoked sessionStart function')
     response = req.post(
@@ -33,3 +34,8 @@ def sessionStart():
     with open("session.json", "w") as file:
         json.dump(sessionDict, file)
     return sessionDict
+
+
+async def start():
+    eight = EightSleep(env.userId, env.password, 'MST', None)
+    await eight.start()

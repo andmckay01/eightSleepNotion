@@ -134,4 +134,4 @@ eightSleep.json
 eightSleepSession.json
 
 #logs
-api_out.log
+history.log

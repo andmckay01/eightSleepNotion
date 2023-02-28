@@ -1,47 +1,26 @@
-import logger as l
-import json
 import requests as req
+import json
+import logger as l
 import env
-from datetime import datetime as dt
-# from pyeight.eight import EightSleep # did things myself instead
+import datetime as dt
 
-
-# THIS GIVES US THE MOST RECENT CREATED PAGE, MIGHT BE ABLE TO USE IT LATER BUT IT'S PROBABLY A GOOD IDEA TO CHECK THINGS
-print('---------THAT NEW NEW---------')
-
-# with open('notionData.json', 'r') as f:
-#     data = json.load(f)
-#     print(data['results'][0])
-
-token = env.notionToken
-database_id = env.notionDatabaseId
-url = "https://api.notion.com/v1/pages"
-
-headers = {
-    "accept": "application/json",
-    "Notion-Version": "2022-06-28",
-    "content-type": "application/json",
-    "Authorization": f"Bearer {token}"
+headersPost8Slp = {
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Connection": "keep-alive",
+    "User-Agent": "okhttp/3.6.0",
+    "authority": "app-api.8slp.net"
+}
+data8Slp = {
+    "email": env.email,
+    "password": env.password
 }
 
-body = {
-    "parent": {
-        "database_id": f"{database_id}"
-    },
-    # properties parameer must confrom to the parent database's property schema
-    "properties": {
-        "Date": {
-            "id": "*%24DM",
-            "type": "date",
-            "date": {
-                    "start": "2023-02-26",
-                    "end": None,
-                    "time_zone": None
-            }
-        }
-    }
-}
+response = req.post(
+    'https://client-api.8slp.net/v1/login',
+    headers=headersPost8Slp,
+    data=data8Slp
+)
+print(response)
 
-response = req.post(url, data=json.dumps(body), headers=headers)
-
-print(response.text)
+# sessionDict = json.loads(response.text)['session']
+# print(sessionDict)

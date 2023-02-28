@@ -1,14 +1,18 @@
+# notionSeed isn't a seed in the traditional sense because we do not need notionData.json for things to work
+# however, we do need it to make informated decisions about our requests to the notion api
+# this is included in case we need it in the future
+
 import requests as req
 import json
 import env
 
 token = env.notionToken
-database_id = '23b87a29080f4644bf3c0680da72dc01'
+database_id = env.notionDatabaseId
 
 url = f"https://api.notion.com/v1/databases/{database_id}/query"
 
 payload = {
-    "page_size": 100
+    "page_size": 10
 }
 headers = {
     "accept": "application/json",

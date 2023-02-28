@@ -1,7 +1,7 @@
 import logging
 
 logging.basicConfig(
-    filename='api_out.log',
+    filename='history.log',
     filemode='a',
     level=logging.DEBUG,
     format='%(asctime)s - %(levelname)s - %(message)s',

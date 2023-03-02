@@ -1,0 +1,10 @@
+.gitignore
+venv/
+.git/
+.env
+
+notionData.json
+eightSleep.json
+eightSleepSession.json
+
+history.log

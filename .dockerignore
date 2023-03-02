@@ -1,0 +1,14 @@
+venv/
+.env
+.notionSeed
+.dockerignore
+.gcloudignore
+.gitignore
+
+#data
+notionData.json
+eightSleep.json
+eightSleepSession.json
+
+#logs
+history.log

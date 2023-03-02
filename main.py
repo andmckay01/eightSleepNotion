@@ -14,3 +14,7 @@ def main():
     heartRate = data["heartRate"]
 
     postNotion(score, respRate, heartRate)
+
+
+# invoke the main function
+main()
